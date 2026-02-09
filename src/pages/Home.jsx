@@ -8,15 +8,16 @@ import { useUser } from '../context/UserContext';
 import Button from '../components/ui/Button';
 import ProposalGate from '../components/ProposalGate';
 
+
 const Home = () => {
     const { user } = useUser();
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    // New state: If personalized, only unlock after "Yes"
-    const [proposalAccepted, setProposalAccepted] = useState(false);
+    // State to track if the "Gate" is unlocked (i.e. user said Yes)
+    const [gateUnlocked, setGateUnlocked] = useState(false);
 
-    // If personalized link is used, unlock all days ONLY after acceptance
-    const isPersonalized = !!user.name && !!user.partnerName;
+    // If personalized link is used, unlock all days. We only need the receiver's name for this.
+    const isPersonalized = !!user.to;
 
     // For debugging/demo purposes, we can uncomment this to simulate a specific date
     // useEffect(() => {
@@ -24,7 +25,7 @@ const Home = () => {
     // }, []);
 
     const isUnlocked = (dateString, id) => {
-        if (isPersonalized) return proposalAccepted; // Must accept proposal first
+        if (isPersonalized) return true; // Unlock all days for personalized links
 
         const targetDate = new Date(dateString);
         const today = new Date(currentDate);
@@ -36,9 +37,7 @@ const Home = () => {
         return today >= targetDate;
     };
 
-    if (isPersonalized && !proposalAccepted) {
-        return <ProposalGate onYes={() => setProposalAccepted(true)} />;
-    }
+
 
     const container = {
         hidden: { opacity: 0 },
@@ -57,6 +56,11 @@ const Home = () => {
 
     return (
         <div className="min-h-screen pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+            {/* Show Proposal Gate if personalized and not yet unlocked by answering "Yes" */}
+            {isPersonalized && !gateUnlocked && (
+                <ProposalGate onYes={() => setGateUnlocked(true)} />
+            )}
+
             <header className="relative z-10 text-center mb-16 pt-8">
                 <div className="flex justify-center mb-4">
                     <motion.div
@@ -74,7 +78,7 @@ const Home = () => {
                     transition={{ duration: 0.8 }}
                     className="text-5xl md:text-7xl font-handwriting text-hotpink mb-4 drop-shadow-sm"
                 >
-                    {user.name ? `Happy Valentine's Week, ${user.name}!` : "Valentine Link Generator"}
+                    {user.to ? `Happy Valentine's Week, ${user.to}!` : "Valentine Link Generator"}
                 </motion.h1>
                 <motion.p
                     initial={{ opacity: 0 }}
@@ -82,7 +86,7 @@ const Home = () => {
                     transition={{ delay: 0.5, duration: 0.8 }}
                     className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-sans font-medium mb-8"
                 >
-                    {user.partnerName ? `A special surprise from ${user.partnerName}` : "Create a personalized cute surprise for your valentine!"}
+                    {isPersonalized ? (user.from ? `A special surprise from ${user.from}` : "A special surprise for you!") : "Create a personalized cute surprise for your valentine!"}
                 </motion.p>
 
                 {!isPersonalized && (
@@ -140,7 +144,7 @@ const Home = () => {
             </motion.div>
 
             <footer className="mt-20 text-center text-rose-300 text-sm">
-                <p>Made with ❤️ for You</p>
+                <p>Created by <a href="#" className="font-bold text-hotpink hover:underline">Amjad</a></p>
             </footer>
         </div>
     );

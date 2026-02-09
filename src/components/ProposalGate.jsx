@@ -44,7 +44,7 @@ const ProposalGate = ({ onYes }) => {
                         />
 
                         <h1 className="text-3xl font-bold text-gray-800 mb-2 font-sans">
-                            {user.name ? `${user.name}, ` : ''}will you be my valentine?
+                            {user.to ? `${user.to}, ` : ''}will you be my valentine?
                         </h1>
 
                         <div className="flex gap-4 justify-center mt-8 relative h-16">
@@ -68,6 +68,9 @@ const ProposalGate = ({ onYes }) => {
                             </motion.div>
                         </div>
                         <p className="text-xs text-gray-400 mt-8 italic">"No" seems a bit shy 😈</p>
+                        <div className="mt-4 text-center text-xs text-gray-400">
+                            Created by <a href="#" className="font-bold text-hotpink hover:underline">Amjad</a>
+                        </div>
                     </motion.div>
                 ) : (
                     <motion.div
@@ -100,8 +103,8 @@ const ProposalGate = ({ onYes }) => {
                         >
                             Yay! 💖
                         </motion.h2>
-                        <p className="text-gray-600 params font-medium">
-                            {user.partnerName || 'Someone'} will be so happy!
+                        <p className="text-gray-600 font-medium">
+                            {user.from || 'Someone'} will be so happy!
                         </p>
                     </motion.div>
                 )}

@@ -70,8 +70,13 @@ const ValentinesDay = () => {
                         Happy Valentine's Day!
                     </h1>
                     <p className="text-2xl text-red-500 font-medium">
-                        {user.partnerName ? `To my one and only, ${user.partnerName}.` : "Celebrating Love, Today and Always."}
+                        {user.to ? `To my one and only, ${user.to}.` : "Celebrating Love, Today and Always."}
                     </p>
+                    {user.from && (
+                        <p className="text-xl text-red-400 font-medium mt-2">
+                            From: {user.from}
+                        </p>
+                    )}
                 </motion.div>
 
                 <div className="flex flex-col md:flex-row gap-12 items-center w-full justify-center">
@@ -96,30 +101,64 @@ const ValentinesDay = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="max-w-md text-center md:text-left flex flex-col items-center md:items-start"
                     >
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                            You are my everything.
-                        </h2>
-                        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                            "Every moment we've spent leading up to this day has been magical. You are the reason my world is so colorful. I love you more than words can describe."
-                        </p>
-
-                        {!celebrating ? (
-                            <Button
-                                onClick={handleCelebrate}
-                                className="bg-red-500 hover:bg-red-600 text-white px-12 py-4 text-xl rounded-full shadow-xl animate-bounce"
-                            >
-                                Celebrate Our Love! 🎆
-                            </Button>
-                        ) : (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className="bg-white/80 p-6 rounded-2xl shadow-lg border-2 border-red-200"
-                            >
-                                <p className="text-xl text-red-600 font-handwriting font-bold">
-                                    I Love You Forever! ❤️
+                        {user.answer === 'yes' ? (
+                            <>
+                                <h2 className="text-4xl font-bold text-red-600 mb-6 drop-shadow-sm">
+                                    I Said YES! 💖
+                                </h2>
+                                <p className="text-xl text-gray-800 mb-8 leading-relaxed font-medium">
+                                    "You made me the happiest person alive! I can't wait to celebrate our love together."
                                 </p>
-                            </motion.div>
+                                <div className="bg-white/80 p-6 rounded-2xl shadow-lg border-2 border-red-200 animate-pulse">
+                                    <p className="text-xl text-red-600 font-handwriting font-bold">
+                                        Love requires two! ❤️
+                                    </p>
+                                </div>
+                            </>
+                        ) : user.answer === 'no' ? (
+                            <>
+                                <h2 className="text-4xl font-bold text-gray-600 mb-6">
+                                    Maybe Next Time... 💔
+                                </h2>
+                                <p className="text-xl text-gray-700 mb-8 leading-relaxed">
+                                    "I learned that courage was not the absence of fear, but the triumph over it."
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                                    Will you be my Valentine?
+                                </h2>
+                                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                                    "Every moment we've spent leading up to this day has been magical. You are the reason my world is so colorful. I love you more than words can describe."
+                                </p>
+
+                                {!celebrating ? (
+                                    <div className="flex flex-col gap-4 w-full md:w-auto">
+                                        <Button
+                                            onClick={handleCelebrate}
+                                            className="bg-red-500 hover:bg-red-600 text-white px-12 py-4 text-xl rounded-full shadow-xl animate-bounce"
+                                        >
+                                            Yes, I will! 💖
+                                        </Button>
+
+                                        <div className="mt-8 text-center md:text-left text-sm text-gray-400">
+                                            Created by <a href="#" className="font-bold text-hotpink hover:underline">Amjad</a>
+                                        </div>
+
+                                    </div>
+                                ) : (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="bg-white/80 p-6 rounded-2xl shadow-lg border-2 border-red-200"
+                                    >
+                                        <p className="text-xl text-red-600 font-handwriting font-bold">
+                                            I Love You Forever! ❤️
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </>
                         )}
                     </motion.div>
                 </div>

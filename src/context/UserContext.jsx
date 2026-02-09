@@ -6,23 +6,25 @@ const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({ name: '', partnerName: '' });
+    const [user, setUser] = useState({ to: '', from: '', answer: null });
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
         const from = searchParams.get('from');
         const to = searchParams.get('to');
+        const answer = searchParams.get('answer');
 
-        if (from || to) {
+        if (from || to || answer) {
             setUser({
-                name: to || '', // "To" is the current user viewing the page
-                partnerName: from || '' // "From" is the one who sent it
+                to: to || '', // Receiver (To)
+                from: from || '', // Sender (From)
+                answer: answer || null
             });
         }
     }, [searchParams]);
 
-    const updateUser = (name, partnerName) => {
-        setUser({ name, partnerName });
+    const updateUser = (to, from, answer = null) => {
+        setUser({ to, from, answer });
     };
 
     return (
